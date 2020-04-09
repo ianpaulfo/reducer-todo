@@ -1,37 +1,30 @@
-export const initialToDoState = [ 
-    {item: "Tweet at Zucc",
-    completed: false,
-     id: 1 },
-     {item: "Zoom w/ President Trump",
-    completed: false,
-     id: 2 },
-     {item: "Facebook message the Winklevii",
-    completed: false,
-     id: 3 },
-     {item: "Google stuff with Steve Ballmer",
-    completed: false,
-     id: 4 }
-];
-
-export const reducer = (state, action) => {
+export const initialState = [
+    {
+      item: "Learn about reducers",
+      completed: false,
+      id: 3892987589
+    }
+  ];
+  
+  export const reducer = (state, action) => {
+    console.log(state, action);
     switch (action.type) {
-      case 'ADD_TODO':
-        return [...state, action.payload];
-      case 'DELETE_TODO':
-        return state.filter(todo => todo.id !== action.payload);
-      case 'COMPLETE_TODO':
-        return  state.map(todo => {
-          if (action.payload.id === todo.id) {
-            return {
-              ...todo,
-              completed: !action.payload.completed
-            }          
-          } else {        
-            return todo
-          }
-        })
-      case 'CLEAR_COMPLETE':
-        return state.filter(todo => todo.completed !== true);
+      case "ADD_TODO":
+        const newItem = {
+          item: action.payload,
+          completed: false,
+          id: Date.now()
+        };
+        return [...state, newItem];
+      case "TOGGLE_COMPLETED":
+        return state.map(item => {
+          return item.id === action.payload
+            ? { ...item, completed: !item.completed }
+            : item;
+        });
+      case "CLEAR_COMPLETED":
+        return state.filter(item => !item.completed);
+  
       default:
         return state;
     }
